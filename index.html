@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Application</title>
+
+  <!-- Styling Links -->
+
+  <link rel="stylesheet" href="/app/styles/styles.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
+
+</head>
+
+<body ng-controller="weatherController as vm">
+
+  <!-- Top/Heading -->
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Weather</h1>
+      <p>Check the weather in your area</p>
+    </div>
+
+    <div id="body">
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-xs-12 col-md-4">
+          <div class="row">
+            <div class="input-group">
+              <!-- Search input -->
+              <input type="text" class="form-control" ng-model="vm.searchTerm" placeholder="Search for...">
+              <span class="input-group-btn">
+                <!-- Search button -->
+              <button class="btn btn-default" type="button" ng-click="vm.searchForWeather(vm.searchTerm)">Locate</button>
+            </span>
+            </div>
+
+            <!-- Recent search link buttons -->
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" ng-click="vm.searchForWeather(vm.searched[vm.searched.length -2])">{{vm.searched[vm.searched.length -2]}}</button>
+              <button type="button" class="btn btn-secondary" ng-click="vm.searchForWeather(vm.searched[vm.searched.length -3])">{{vm.searched[vm.searched.length -3]}}</button>
+              <button type="button" class="btn btn-secondary" ng-click="vm.searchForWeather(vm.searched[vm.searched.length -4])">{{vm.searched[vm.searched.length -4]}}</button>
+            </div>
+          </div>
+          <!-- End of left column -->
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-xs-12 col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <!-- Data input panel (city, temp, pressure etc.) -->
+              <h3 class="panel-title">Weather Details</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-12"> <!-- City Name Section -->
+                  <h2> {{vm.detailedResults.cityName}} </h2>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4"> <!-- Temp -->
+                      <h5> Temperature (F) </h5>
+                      <p>{{vm.detailedResults.temp}}F</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4"> <!-- Pressure -->
+                      <h5> Pressure </h5>
+                      <p>{{vm.detailedResults.pressure}}</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4"> <!-- Humidity -->
+                      <h5> Humidity </h5>
+                      <p>{{vm.detailedResults.humidity}}%</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4"> <!-- Low Temp -->
+                      <h5> Lowest Temperature (F)</h5>
+                      <p>{{vm.detailedResults.tempMin}}F</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4"> <!-- High Temp -->
+                      <h5> Highest Temperature (F)</h5>
+                      <p>{{vm.detailedResults.tempMax}}F</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4"> <!-- Wind Speed -->
+                      <h5> Wind Speed </h5>
+                      <p>{{vm.detailedResults.windSpeed}}mph</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Right Column -->
+
+          <!-- Recent Searches -->
+          <div id="recents">
+            <div class="panel panel-default">
+              <div class="panel-heading">Recent Searches</div>
+              <div class="panel-body">
+                <ul style="list-style: none">
+                  <li class="list" ng-repeat="searched in vm.searched" ng-bind-template="{{::vm.detailedResults.cityName}} {{::vm.detailedResults.temp}}F {{::vm.date| date:'short'}}">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- bower:js -->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+        <!-- endbower -->
+        <!-- inject:js -->
+        <script src="/app/app.js"></script>
+        <script src="/app/weather.factory.js"></script>
+        <script src="/app/weatherFinderController.js"></script>
+        <!-- endinject -->
+</body>
+
+</html>
